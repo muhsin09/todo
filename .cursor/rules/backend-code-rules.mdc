@@ -1,0 +1,145 @@
+
+description: Spring Boot backend geliştirme için kapsamlı kod kuralları ve best practices. Java/Kotlin, Spring Boot, Maven, JUnit, Domain Driven Design ve Command Query Segregation prensiplerini içerir. Her domain için ayrı klasör yapısı ve CQS prensiplerine göre organize edilmiş kod yapısı kullanılır.
+
+You are an expert in Java, Kotlin programming, Spring Boot, Spring Framework, Maven, JUnit, Domain Driven Design (DDD), Command Query Segregation (CQS), and related Java technologies.
+
+Code Style and Structure
+- Write clean, efficient, and well-documented Java, Kotlin code with accurate Spring Boot examples.
+- Use Spring Boot best practices and conventions throughout your code.
+- Implement RESTful API design patterns when creating web services.
+- Use descriptive method and variable names following camelCase convention.
+- Structure Spring Boot applications: controllers, services, repositories, models, configurations.
+
+Domain Driven Design (DDD) Principles
+- Structure applications around business domains and use ubiquitous language.
+- Implement bounded contexts with clear boundaries and interfaces.
+- Use aggregates as consistency boundaries for business rules.
+- Implement domain entities with rich behavior, not just data containers.
+- Use value objects for immutable concepts (e.g., Email, Money, Address).
+- Implement domain services for business logic that doesn't belong to entities.
+- Use repositories for aggregate persistence with domain-oriented interfaces.
+- Implement domain events for cross-aggregate communication.
+- Use specification pattern for complex business rules and queries.
+- Structure packages by domain rather than technical layers.
+
+Project Structure and Organization
+- Organize code by domain: src/main/java/pdn/avukatb2bbackend/{domainName}/
+- Each domain should have its own package structure: {domainName}/{command,query,model,repository,service}
+- Use shared package for cross-domain concerns: src/main/java/pdn/avukatb2bbackend/shared/{dto,exception,config}
+- Place controllers in the root controller package: src/main/java/pdn/avukatb2bbackend/controller/
+- Always use domain-specific imports and references (e.g., pdn.avukatb2bbackend.user.model.User)
+- Keep domain logic within domain entities and services
+- Separate read and write operations using CQS pattern within each domain
+
+Command Query Segregation (CQS)
+- Separate commands (state-changing operations) from queries (data retrieval).
+- Commands should return void or command result, never data.
+- Queries should not modify state, only return data.
+- Use command handlers for business operations (e.g., CreateUserCommand, UpdateUserCommand).
+- Use query handlers for data retrieval (e.g., GetUserQuery, FindUsersQuery).
+- Implement command bus pattern for handling commands asynchronously.
+- Use query objects for complex data retrieval with multiple parameters.
+- Separate read and write models when necessary (CQRS pattern).
+- Use different DTOs for commands and queries.
+- Implement proper validation for commands before execution.
+- Organize commands and queries within each domain: /{domainName}/command/ and /{domainName}/query/
+- Use CommandService and QueryService pattern within each domain
+- Commands should be in /{domainName}/command/ package
+- Queries should be in /{domainName}/query/ package
+- Service layer should be split into CommandService (for state changes) and QueryService (for data retrieval)
+
+Spring Boot Specifics
+- Use Spring Boot starters for quick project setup and dependency management.
+- Implement proper use of annotations (e.g., @SpringBootApplication, @RestController, @Service).
+- Utilize Spring Boot's auto-configuration features effectively.
+- Implement proper exception handling using @ControllerAdvice and @ExceptionHandler.
+
+Naming Conventions
+- Use PascalCase for class names (e.g., UserController, OrderService, CreateUserCommand).
+- Use camelCase for method and variable names (e.g., findUserById, isOrderValid, executeCommand).
+- Use ALL_CAPS for constants (e.g., MAX_RETRY_ATTEMPTS, DEFAULT_PAGE_SIZE).
+- Use descriptive names for domain concepts (e.g., UserAggregate, OrderRepository).
+
+Java, Kotlin and Spring Boot Usage
+- Use Java 21 or later features when applicable (e.g., records, sealed classes, pattern matching).
+- Leverage Spring Boot 3.x features and best practices.
+- Use Spring Data JPA for database operations when applicable.
+- Implement proper validation using Bean Validation (e.g., @Valid, custom validators).
+
+Configuration and Properties
+- Use application.properties or application.yml for configuration.
+- Implement environment-specific configurations using Spring Profiles.
+- Use @ConfigurationProperties for type-safe configuration properties.
+
+Dependency Injection and IoC
+- Use constructor injection over field injection for better testability.
+- Leverage Spring's IoC container for managing bean lifecycles.
+
+Testing
+- Write unit tests using JUnit 5 and Spring Boot Test.
+- Use MockMvc for testing web layers.
+- Implement integration tests using @SpringBootTest.
+- Use @DataJpaTest for repository layer tests.
+- Test domain logic in isolation from infrastructure concerns.
+- Use domain events for testing cross-aggregate interactions.
+
+Performance and Scalability
+- Implement caching strategies using Spring Cache abstraction.
+- Use async processing with @Async for non-blocking operations.
+- Implement proper database indexing and query optimization.
+- Use read replicas for query operations when implementing CQRS.
+
+Security
+- Implement Spring Security for authentication and authorization.
+- Use proper password encoding (e.g., BCrypt).
+- Implement CORS configuration when necessary.
+
+Logging and Monitoring
+- Use SLF4J with Logback for logging.
+- Implement proper log levels (ERROR, WARN, INFO, DEBUG).
+- Use Spring Boot Actuator for application monitoring and metrics.
+
+API Documentation
+- Use Springdoc OpenAPI (formerly Swagger) for API documentation.
+
+Data Access and ORM
+- Use Spring Data JPA for database operations.
+- Implement proper entity relationships and cascading.
+- Use database migrations with tools like Flyway or Liquibase.
+- Separate read and write models when implementing CQRS.
+
+Build and Deployment
+- Use Maven for dependency management and build processes.
+- Implement proper profiles for different environments (dev, test, prod).
+- Use Docker for containerization if applicable.
+
+Follow best practices for:
+- RESTful API design (proper use of HTTP methods, status codes, etc.).
+- Microservices architecture (if applicable).
+- Asynchronous processing using Spring's @Async or reactive programming with Spring WebFlux.
+- Domain events for loose coupling between bounded contexts.
+
+Adhere to SOLID principles and maintain high cohesion and low coupling in your Spring Boot application design.
+
+globs:
+- "**/*.java"
+- "**/*.kt"
+- "**/pom.xml"
+- "**/build.gradle"
+- "**/application.properties"
+- "**/application.yml"
+- "**/application.yaml"
+alwaysApply: true
+
+File Organization Rules
+- Always organize new code according to DDD and CQS principles
+- Place domain entities in /{domainName}/model/
+- Place repositories in /{domainName}/repository/
+- Place commands in /{domainName}/command/
+- Place queries in /{domainName}/query/
+- Place services in /{domainName}/service/ (split into CommandService and QueryService)
+- Place shared DTOs in shared/dto/
+- Place exceptions in shared/exception/
+- Place configurations in shared/config/
+- Use proper package imports for all domain-specific classes
+---
